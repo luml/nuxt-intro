@@ -1,11 +1,17 @@
 export const state = () => ({
-    stars: null
+    stars: null,
+    reps: []
 })
 
 export const mutations = {
-    // 设置用户信息
+    // How many reps from elio's github
     setStars(state, payload) {
-        state.userInfo = {
+        state.stars = {
+            ...payload
+        }
+    },
+    setReps(state, payload) {
+        state.reps = {
             ...payload
         }
     }

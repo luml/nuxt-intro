@@ -1,8 +1,7 @@
 <template>
     <div>
-      <h1>Hey {{name}}</h1>
-      <!-- <h1>Reps: Random one {{Example}}</h1> -->
-      <!-- <h1>Stars: {{ $store.state.stars }}</h1> -->
+      <p>😇Hey {{name}}, welcome to {{ title }}</p>
+      <h3>👀{{ $store.state.stars }} repos belong to Elio</h3>
       <div>
         <select name="events" id="eventName">
           <option value="Just">🎥filming</option>
@@ -26,7 +25,9 @@ import store from 'store'
 export default {
   data () {
     return {
-      name: 'Default'
+      name: 'Default',
+      title: 'Elio Nuxt Demo',
+      Reps: []
     }
   },
   asyncData (context) {
@@ -36,14 +37,19 @@ export default {
     return axios.get('https://api.github.com/users/luml/repos')
     .then((res) => {
       // store.commit(res.data)
-      // store.commit('setStars', 10)
-      // store.commit('setStars', res.data[0].name)
+      store.commit('setReps', res.data)
+      store.commit('setStars', res.data.length)
       console.log(res.data.length, res.data[0].name)
     })
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [
+        {hid: 'description', name: 'description', context: 'My custom description'}
+      ]
+    }
   }
-  // head () {
-
-  // }
 }
 </script>
 
