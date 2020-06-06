@@ -5,14 +5,30 @@ export const state = () => ({
 
 export const mutations = {
     // How many reps from elio's github
-    setStars(state, payload) {
+    SET_STARS(state, payload) {
         state.stars = {
-            ...payload
+            payload
         }
     },
-    setReps(state, payload) {
+    SET_REPS(state, payload) {
         state.reps = {
-            ...payload
+            payload
         }
     }
 }
+
+import axios from 'axios'
+export const actions = {
+    async GET_STARS ({ commit }) {
+      await axios.get('https://api.github.com/users/luml/repos')
+      .then((res) => {
+        commit('SET_STARS', res.data.length)
+      })
+    },
+    async GET_REPS ({ commit }) {
+        await axios.get('https://api.github.com/users/luml/repos')
+        .then((res) => {
+          commit('SET_REPS', res.data)
+        })
+    },
+  }

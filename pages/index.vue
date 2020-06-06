@@ -1,7 +1,7 @@
 <template>
     <div>
       <p>😇Hey {{name}}, welcome to {{ title }}</p>
-      <h3>👀{{ $store.state.stars }} repos belong to Elio</h3>
+      <h3>👀{{ $store.state.stars.payload }} repos belong to Elio</h3>
       <div>
         <select name="events" id="eventName">
           <option value="Just">🎥filming</option>
@@ -10,7 +10,7 @@
         </select>
       </div>
       <div>
-        <ol v-for="item of Reps" v-bind:key="item">
+        <ol v-for="item of $store.state.reps.payload" v-bind:key="item">
           <li>{{item}}</li>
         </ol>
       </div>
@@ -23,25 +23,30 @@ import axios from 'axios'
 import store from 'store'
 
 export default {
+  async fetch ({ store, params }) {
+    await store.dispatch('GET_STARS');
+  },
+  async fetch ({ store, params }) {
+    await store.dispatch('GET_REPS');
+  },
   data () {
     return {
       name: 'Default',
-      title: 'Elio Nuxt Demo',
-      Reps: []
+      title: 'Elio Nuxt Demo'
     }
   },
   asyncData (context) {
     return {name: 'There'}
   },
-  fetch ({store, params}) {
-    return axios.get('https://api.github.com/users/luml/repos')
-    .then((res) => {
-      // store.commit(res.data)
-      store.commit('setReps', res.data)
-      store.commit('setStars', res.data.length)
-      console.log(res.data.length, res.data[0].name)
-    })
-  },
+  // fetch ({store, params}) {
+  //   return axios.get('https://api.github.com/users/luml/repos')
+  //   .then((res) => {
+  //     // store.commit(res.data)
+  //     store.commit('setReps', res.data)
+  //     store.commit('setStars', res.data.length)
+  //     console.log(res.data.length, res.data[0].name)
+  //   })
+  // },
   head () {
     return {
       title: this.title,
